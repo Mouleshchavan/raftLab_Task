@@ -9,7 +9,7 @@ router.post("/createCity", (req,res)=>{
   const {ID,City,StateID } = req.body
  
     if(!ID || !City || !StateID){
-        res.status(422).json("plz fill the all data")
+        res.status(422).send("plz fill the all data")
     } 
       try{
         conn.query("INSERT INTO tblcity SET ?", {ID,City,StateID},(err,result)=>{
@@ -17,24 +17,24 @@ router.post("/createCity", (req,res)=>{
                              console.log("err" + err)
  
                          }else{
-                             res.status(201).json(req.body)
+                             res.status(201).send(req.body)
                          }
                  })
              }catch(error){
-     res.status(422).json("error")
+     res.status(422).send("error")
     }
  });
 
 
  //state
  router.post("/createState", (req,res)=>{
-    const {ID,State,CountryID } = req.body
+    const {id,name,country_id } = req.body
    
-      if(!ID || !State || !CountryID){
+      if(!id || !name || !country_id){
           res.status(422).json("plz fill the all data")
       } 
         try{
-          conn.query("INSERT INTO tblstate SET ?", {ID,State,CountryID},(err,result)=>{
+          conn.query("INSERT INTO tblState (id,name,country_id) VALUES  ("+ req.body+ ", 1)", {id,name,country_id},(err,result)=>{
                            if(err){
                                console.log("err" + err)
    

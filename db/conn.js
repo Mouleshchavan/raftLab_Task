@@ -1,16 +1,41 @@
-const mysql = require("mysql2")
+// // const mysql = require("mysql2")
+// const mysql = require('mssql')
 
-const conn = mysql.createConnection({
-user:"root",
-host:"localhost",
-password:"1234",
-database:"crudnode"
+// var conn = ({
+//     user :'interview',
+//     password :'interview@123',
+//     server:'LAPTOP-RQHPPRO2',
+//     database:'interview',
+//     options:{
+//         trustedconnection: true,
+//         enableArithAbort : true, 
+//         instancename :'mssql.esmsys.in'
+//     },
+//     port : 14251
 
 
-});
+// });
 
-conn.connect((err)=>{
-    if(err)throw err;
-    console.log("DB connnected")
-})
-module.exports = conn
+// module.exports = conn
+const sql = require('mssql')
+const conn2 = {
+    user: 'interview',
+    password: 'interview@123',
+    server: 'mssql.esmsys.in', 
+    database: 'interview',
+    port: 14251,
+    options: {
+        encrypt: false // Use this if you're on Windows Azure
+    }
+}
+
+
+const conn = new sql.ConnectionPool(conn2)
+  .connect()
+  .then(pool => {
+    console.log('Connected to MSSQL')
+    return pool
+  })
+  .catch(err => console.log('Database Connection Failed! Bad Config: ', err))
+
+  module.exports = conn
